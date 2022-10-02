@@ -2,6 +2,10 @@ import { config } from 'dotenv';
 import { Client, GatewayIntentBits, Routes} from 'discord.js';
 import {REST} from '@discordjs/rest';
 
+import OrderCommand from './commands/order.js';
+import RolesCommand from './commands/roles.js';
+import GachaCommand from './commands/gacha.js';
+
 config();
 
 const TOKEN = process.env.TOKEN;
@@ -24,28 +28,33 @@ client.on('ready', () => {
 
 client.on('interactionCreate', (interaction) => {
     if (interaction.isChatInputCommand()){
-        console.log('Hello World');
-        console.log(interaction.options.get('food').value);
-        interaction.reply({ content: 'Hey There!!!!'});
+        console.log('Hello Command');
+
+        switch (interaction.commandName.toString()){
+            case 'order':
+                const food = interaction.options.get('food').value;
+                const drink = interaction.options.get('drink').value;
+
+                console.log(`${food} and ${drink}`);
+                interaction.reply({ 
+                    content: `You ordered ${food} and ${drink}`,
+                });
+                break;
+            case 'addrole' :
+                interaction.reply({ 
+                    content: `On Progress`,
+                });
+            case 'gacha' :
+                interaction.reply({ 
+                    content: `Gacha teroozzzz`,
+                });
+        }      
     }
 });
 
 async function main(){
 
-    const commands = [
-        {
-            name: 'tutorialorder',
-            description: 'Order Something',
-            options: [
-                {
-                    name: 'food',
-                    description: 'the type of food',
-                    type: 3, // string
-                    required: true,
-                },
-            ],
-        }
-    ];
+    const commands = [OrderCommand, RolesCommand, GachaCommand];
 
     try{
         console.log('Started refreshing application (/) commands.');
