@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Client, GatewayIntentBits, Routes, SelectMenuBuilder} from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Client, GatewayIntentBits,Routes, SelectMenuBuilder} from 'discord.js';
 import {REST} from '@discordjs/rest';
 
 import OrderCommand from './commands/order.js';
@@ -7,6 +7,9 @@ import GachaCommand from './commands/gacha.js';
 import GifCommand from './commands/getgif.js';
 import RolesCommand from './commands/roles.js';
 import UsersCommand from './commands/users.js';
+import PixelCommand from './commands/pixel.js';
+
+import { charaGenerate , testCharaGenerate } from './commands/pixel/chara_generate.js';
 
 config();
 
@@ -62,6 +65,17 @@ client.on('interactionCreate', (interaction) => {
                     content: `https://media.tenor.com/7r-BGEoIohkAAAAM/meme-cat.gif`,
                 });
                 break;
+
+            case 'pixel' :
+                console.log(charaGenerate('pixel'));
+                testCharaGenerate();
+                interaction.reply({ 
+                    files: [{
+                        attachment: "img/avatar_1.png",
+                        name: 'cbcfilter.png'
+                      }]
+                });
+                break;
             
             case 'addrole' :
                 interaction.reply({ 
@@ -83,6 +97,9 @@ client.on('interactionCreate', (interaction) => {
             /***** Try to disable button
             currentRowComponent.components[0].setDisabled(true); // button 0
             */
+
+            interaction.message.delete(interaction.customId);
+
             const actionAnimeComponent = new ActionRowBuilder().setComponents(
                 new SelectMenuBuilder().setCustomId('gacha_anime').setOptions([
                     {label: 'SpyXFamily', value: 'spyxfamily'},
@@ -134,7 +151,8 @@ async function main(){
         GachaCommand, 
         GifCommand, 
         RolesCommand, 
-        UsersCommand];
+        UsersCommand,
+        PixelCommand];
 
     try{
         console.log('Started refreshing application (/) commands.');
