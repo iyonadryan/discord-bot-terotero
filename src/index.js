@@ -9,7 +9,7 @@ import RolesCommand from './commands/roles.js';
 import UsersCommand from './commands/users.js';
 import PixelCommand from './commands/pixel.js';
 
-import { charaGenerate , testCharaGenerate } from './commands/pixel/chara_generate.js';
+import { testCharaGenerate, startCharaGenerate } from './commands/pixel/chara_generate.js';
 
 config();
 
@@ -67,14 +67,25 @@ client.on('interactionCreate', (interaction) => {
                 break;
 
             case 'pixel' :
-                console.log(charaGenerate('pixel'));
-                testCharaGenerate();
-                interaction.reply({ 
-                    files: [{
-                        attachment: "img/avatar_1.png",
-                        name: 'cbcfilter.png'
-                      }]
-                });
+                const avatarName = interaction.options.get('name').value;
+                startCharaGenerate(avatarName);
+                setTimeout(getGenerate,2000); // Wait generate image 2sec    
+                function getGenerate(){
+                    try {
+                        console.log("Get Generate");
+                        const fileAttachment = `img/pixel/avatars/generate_result/${avatarName}_crop.png`;
+                        interaction.reply({ 
+                            files: [{
+                                attachment: fileAttachment,
+                                name: 'avatar.png'
+                            }]
+                        });
+                    }
+                    catch(error){
+                        interaction.reply({ content: 'Error, please try again'});
+                    }
+                }   
+
                 break;
             
             case 'addrole' :
