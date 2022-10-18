@@ -66,10 +66,23 @@ function startCharaGenerate(avatarName){
     Promise.all(jimps).then(function(data){
         return Promise.all(jimps);
     }).then(function(data){
+
+        // Hue Color Costume
+        let randomDegreeCostume = Math.floor(Math.random() * 360);
+        data[1].color([
+            { apply: 'hue', params: [randomDegreeCostume] }
+        ]);
+
+        // Hue Color Eye
+        let randomDegreeEye = Math.floor(Math.random() * 360);
+        data[2].color([
+            { apply: 'hue', params: [randomDegreeEye] }
+        ]);
+
         // Hue Color Hair
-        let randomDegree = Math.floor(Math.random() * 360);
+        let randomDegreeHair = Math.floor(Math.random() * 360);
         data[3].color([
-            { apply: 'hue', params: [randomDegree] }
+            { apply: 'hue', params: [randomDegreeHair] }
         ]);
 
         data[0].composite(data[1],0,0);
