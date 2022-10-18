@@ -93,8 +93,10 @@ function startCharaGenerate(avatarName){
             console.log(`wrote the ${avatarName} image`);
 
             // Crop Image
-            data[0].crop(32, 0 , 32, 32);
-            data[0].write(`./././img/pixel/avatars/generate_result/${avatarName}_crop.png`, function(){
+            let imageCrop1 = data[0];
+            imageCrop1.crop(32, 0 , 32, 32);
+
+            imageCrop1.write(`./././img/pixel/avatars/generate_result/${avatarName}_crop.png`, function(){
                 console.log(`crop ${avatarName} image`);
                 console.log("Generate DONE");
             });
