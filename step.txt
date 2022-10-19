@@ -1,0 +1,42 @@
+Link Tutorial Discord V14 : https://www.youtube.com/playlist?list=PL_cUvD4qzbkwA7WITceoc2_FFjQsBkwX7
+
+------------------
+
+Documentation : https://discord.js.org/#/docs/discord.js/main/general/welcome
+
+------------------
+
+Developer Portal : https://discord.com/developers/docs/interactions/application-commands#slash-commands
+
+------------------
+
+run command : node ./src/index.js
+
+------------------
+
+` <-- diatas tombol tab
+
+------------------
+
+Composite Image : https://www.youtube.com/watch?v=Wk3gkFNC0s8
+
+Method : https://www.npmjs.com/package/jimp
+
+--------------------
+
+From PNG to GIF : https://npm.io/package/gif-encoder-2
+https://stackoverflow.com/questions/42971278/add-image-as-frame-to-a-gif
+
+Canvas:
+https://github.com/Automattic/node-canvas/wiki/Installation%3A-Windows
+
+1. A global installation of node-gyp. ( npm install -g node-gyp )
+2. copy file to C/GTK
+3. Install libjpeg-turbo
+
+npm ERR! gyp ERR! find VS You need to install the latest version of Visual Studio
+npm ERR! gyp ERR! find VS including the "Desktop development with C++" workload.
+https://stackoverflow.com/questions/72956236/unable-to-install-canvas-nodejs
+https://learn.microsoft.com/en-us/visualstudio/install/modify-visual-studio?view=vs-2022
+------------------
+
