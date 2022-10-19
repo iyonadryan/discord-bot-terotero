@@ -5,7 +5,11 @@ import pkgJimp from 'jimp';
 const { read } = pkgJimp;
 
 import pkgFs from 'fs-extra';
-const { readdir } = pkgFs;
+const { readdir, writeFile } = pkgFs;
+
+//const GIFEncoder = require('gif-encoder-2')
+import pkgGifencoder from 'gif-encoder-2';
+const GIFEncoder = pkgGifencoder;
 
 const testCharaGenerate = (name) => {
     return `Hi ${name}`;
@@ -98,7 +102,9 @@ function startCharaGenerate(avatarName){
             starCropAvatarPixel(dirPathCrop, 1 , 32 , 0);
             starCropAvatarPixel(dirPathCrop, 2 , 64 , 0);
             console.log(`Generate CROP`);
-        
+            
+            //Test gif
+            testGif();
         });
     });    
 }
@@ -111,6 +117,25 @@ async function starCropAvatarPixel(dirPath, part, x , y) {
     })
     .write(`${dirPath}_crop_${part}.png`);
     console.log(`Crop ${part} DONE`);
+}
+
+function testGif(){
+    const encoder = new GIFEncoder(32, 32);
+    encoder.setDelay(500)
+    encoder.start()
+    /*
+    encoder.addFrame(`./././img/pixel/avatars/generate_result/aaa_crop_0.png`);
+    encoder.addFrame(`./././img/pixel/avatars/generate_result/aaa_crop_1.png`);
+    encoder.addFrame(`./././img/pixel/avatars/generate_result/aaa_crop_2.png`);
+    encoder.addFrame(`./././img/pixel/avatars/generate_result/aaa_crop_1.png`);
+    */
+    encoder.finish()
+
+    const buffer = encoder.out.getData()
+    const gifPath = `./././img/pixel/avatars/generate_result/test.gif`;
+    writeFile(gifPath, buffer, error => {
+      // gif drawn or error
+    });
 }
 
 export {testCharaGenerate, startCharaGenerate};
