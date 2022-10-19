@@ -69,15 +69,15 @@ client.on('interactionCreate', (interaction) => {
             case 'pixel' :
                 const avatarName = interaction.options.get('name').value;
                 startCharaGenerate(avatarName);
-                setTimeout(getGenerate,2000); // Wait generate image 2sec    
+                setTimeout(getGenerate,2000); // Wait generate 2sec    
                 function getGenerate(){
                     try {
                         console.log("Get Generate");
-                        const fileAttachment = `img/pixel/avatars/generate_result/${avatarName}_crop_1.png`;
+                        const fileAttachment = `img/pixel/avatars/generate_result/${avatarName}_animation.gif`;
                         interaction.reply({ 
                             files: [{
                                 attachment: fileAttachment,
-                                name: 'avatar.png'
+                                name: 'avatar.gif'
                             }]
                         });
                     }
