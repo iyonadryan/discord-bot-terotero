@@ -93,15 +93,24 @@ function startCharaGenerate(avatarName){
             console.log(`wrote the ${avatarName} image`);
 
             // Crop Image
-            let imageCrop1 = data[0];
-            imageCrop1.crop(32, 0 , 32, 32);
-
-            imageCrop1.write(`./././img/pixel/avatars/generate_result/${avatarName}_crop.png`, function(){
-                console.log(`crop ${avatarName} image`);
-                console.log("Generate DONE");
-            });
+            const dirPathCrop = `./././img/pixel/avatars/generate_result/${avatarName}`;
+            starCropAvatarPixel(dirPathCrop, 0 , 0 , 0);
+            starCropAvatarPixel(dirPathCrop, 1 , 32 , 0);
+            starCropAvatarPixel(dirPathCrop, 2 , 64 , 0);
+            console.log(`Generate CROP`);
+        
         });
     });    
+}
+
+async function starCropAvatarPixel(dirPath, part, x , y) {
+    const image = await read(`${dirPath}.png`);
+
+    image.crop(x, y, 32, 32, function(err){
+      if (err) throw err;
+    })
+    .write(`${dirPath}_crop_${part}.png`);
+    console.log(`Crop ${part} DONE`);
 }
 
 export {testCharaGenerate, startCharaGenerate};

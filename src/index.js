@@ -73,7 +73,7 @@ client.on('interactionCreate', (interaction) => {
                 function getGenerate(){
                     try {
                         console.log("Get Generate");
-                        const fileAttachment = `img/pixel/avatars/generate_result/${avatarName}_crop.png`;
+                        const fileAttachment = `img/pixel/avatars/generate_result/${avatarName}_crop_1.png`;
                         interaction.reply({ 
                             files: [{
                                 attachment: fileAttachment,
