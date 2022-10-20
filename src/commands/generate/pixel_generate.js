@@ -46,13 +46,6 @@ readdir(dirPathFemaleHair, (err,file) =>{
 
 // ----- !Collection Files ----- //
 
-function getRandomFileFromFolder(dirPath,files){
-    let maxCount = files.length;
-    let randomIndex = Math.floor(Math.random() * maxCount);
-    const result = files[randomIndex].toString();
-    return `${dirPath}${result}`;
-}
-
 function startCharaGenerate(avatarName){
     console.log(testCharaGenerate('START CHARA GENERATE'));
     
@@ -111,6 +104,13 @@ function startCharaGenerate(avatarName){
             
         });
     });    
+}
+
+function getRandomFileFromFolder(dirPath,files){
+    let maxCount = files.length;
+    let randomIndex = Math.floor(Math.random() * maxCount);
+    const result = files[randomIndex].toString();
+    return `${dirPath}${result}`;
 }
 
 async function starCropAvatarPixel(dirPath, part, x , y, checkStartGif) {

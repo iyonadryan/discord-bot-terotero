@@ -9,7 +9,7 @@ import RolesCommand from './commands/roles.js';
 import UsersCommand from './commands/users.js';
 import PixelCommand from './commands/pixel.js';
 
-import { testCharaGenerate, startCharaGenerate } from './commands/pixel/chara_generate.js';
+import { testCharaGenerate, startCharaGenerate } from './commands/generate/pixel_generate.js';
 
 config();
 

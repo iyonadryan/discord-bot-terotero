@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 
 const pixelCommand = new SlashCommandBuilder()
         .setName('pixel')
-        .setDescription('Avatar pixel')
+        .setDescription('Generate avatar')
         .addStringOption((option) => 
         option
             .setName('name')
