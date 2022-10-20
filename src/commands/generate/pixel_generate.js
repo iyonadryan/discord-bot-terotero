@@ -13,6 +13,8 @@ const GIFEncoder = pkgGifencoder;
 import pkgCanvas from 'canvas';
 const {Canvas, Image} = pkgCanvas; 
 
+import { generatePixelDone } from '../../../src/index.js';
+
 let startGenerateGif = 0;
 
 const testCharaGenerate = (name) => {
@@ -23,44 +25,56 @@ const testCharaGenerate = (name) => {
 const avatarPath = `./././img/pixel/avatars/`;
 
 // Female
-var skinFemaleFiles = [];
+var skinFemaleFiles = []; // 00
 const dirPathFemaleSkin = `${avatarPath}1_female/00skin/`;
 readdir(dirPathFemaleSkin, (err,file) =>{
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
     skinFemaleFiles = file;
 });
-var costumeFemaleFiles = [];
+var costumeFemaleFiles = []; // 01
 const dirPathFemaleCostume = `${avatarPath}1_female/01costume/`;
 readdir(dirPathFemaleCostume, (err,file) =>{
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
     costumeFemaleFiles = file;
 });
-var eyeFemaleFiles = [];
+var eyeFemaleFiles = []; // 02
 const dirPathFemaleEye = `${avatarPath}1_female/02eye/`;
 readdir(dirPathFemaleEye, (err,file) =>{
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
     eyeFemaleFiles = file;
 });
-var hairFemaleFiles = [];
+var hairFemaleFiles = []; // 03
 const dirPathFemaleHair = `${avatarPath}1_female/03hair/`;
 readdir(dirPathFemaleHair, (err,file) =>{
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
     hairFemaleFiles = file;
 });
 
 // ----- !Collection Files ----- //
 
-function startCharaGenerate(avatarName){
+function startPixelGenerate(avatarName, interaction){
     console.log(testCharaGenerate('START CHARA GENERATE'));
     
     var jimps = [];
     
-    // Get Skin Female
+    // Get Skin Female // 00
     const skinFemaleAvatar = getRandomFileFromFolder(dirPathFemaleSkin, skinFemaleFiles);
     jimps.push(read(skinFemaleAvatar));
-    // Get Costume Female
+    // Get Costume Female // 01
     const costumeFemaleAvatar = getRandomFileFromFolder(dirPathFemaleCostume, costumeFemaleFiles);
     jimps.push(read(costumeFemaleAvatar));
-    // Get Eye Female
+    // Get Eye Female // 02
     const eyeFemaleAvatar = getRandomFileFromFolder(dirPathFemaleEye, eyeFemaleFiles);
     jimps.push(read(eyeFemaleAvatar));
-    // Get hair Female
+    // Get hair Female // 03
     const hairFemaleAvatar = getRandomFileFromFolder(dirPathFemaleHair, hairFemaleFiles);
     jimps.push(read(hairFemaleAvatar));
 
@@ -68,19 +82,19 @@ function startCharaGenerate(avatarName){
         return Promise.all(jimps);
     }).then(function(data){
 
-        // Hue Color Costume
+        // Hue Color Costume // 01
         let randomDegreeCostume = Math.floor(Math.random() * 360);
         data[1].color([
             { apply: 'hue', params: [randomDegreeCostume] }
         ]);
 
-        // Hue Color Eye
+        // Hue Color Eye // 02
         let randomDegreeEye = Math.floor(Math.random() * 360);
         data[2].color([
             { apply: 'hue', params: [randomDegreeEye] }
         ]);
 
-        // Hue Color Hair
+        // Hue Color Hair // 03
         let randomDegreeHair = Math.floor(Math.random() * 360);
         data[3].color([
             { apply: 'hue', params: [randomDegreeHair] }
@@ -91,15 +105,15 @@ function startCharaGenerate(avatarName){
         data[0].composite(data[3],0,0);
 
         // Write Image To Local
-        data[0].write(`./././img/pixel/avatars/generate_result/${avatarName}.png`, function(){
+        data[0].write(`${avatarPath}generate_result/${avatarName}.png`, function(){
             console.log(`wrote the ${avatarName} image`);
 
             // Crop Image
             startGenerateGif = 0;
             const dirPathCrop = `./././img/pixel/avatars/generate_result/${avatarName}`;
-            starCropAvatarPixel(dirPathCrop, 0 , 0 , 0, 3);
-            starCropAvatarPixel(dirPathCrop, 1 , 32 , 0, 3);
-            starCropAvatarPixel(dirPathCrop, 2 , 64 , 0, 3);
+            starCropAvatarPixel(dirPathCrop, 0 , 0 , 0, 3, avatarName, interaction);
+            starCropAvatarPixel(dirPathCrop, 1 , 32 , 0, 3, avatarName, interaction);
+            starCropAvatarPixel(dirPathCrop, 2 , 64 , 0, 3, avatarName, interaction);
             console.log(`Generate CROP`);
             
         });
@@ -113,7 +127,7 @@ function getRandomFileFromFolder(dirPath,files){
     return `${dirPath}${result}`;
 }
 
-async function starCropAvatarPixel(dirPath, part, x , y, checkStartGif) {
+async function starCropAvatarPixel(dirPath, part, x , y, checkStartGif , avatarName, interaction) {
     const image = await read(`${dirPath}.png`);
 
     image.crop(x, y, 32, 32, function(err){
@@ -126,12 +140,12 @@ async function starCropAvatarPixel(dirPath, part, x , y, checkStartGif) {
     startGenerateGif++;
     if (startGenerateGif == checkStartGif){
         setTimeout(function() {
-            generateGif(dirPath);
-        }, 1000); // Wait generate gif 1sec 
+            generateGif(dirPath, avatarName, interaction);
+        }, 500); // Wait generate gif 0.5sec 
     }
 }
 
-function generateGif(dirPath){
+function generateGif(dirPath, avatarName, interaction){
     console.log(`Start Generate GIF`);
     const encoder = new GIFEncoder(32, 32);
     encoder.setDelay(200);
@@ -181,6 +195,9 @@ function generateGif(dirPath){
     unlinkSync(`${dirPath}_crop_0.png`);
     unlinkSync(`${dirPath}_crop_1.png`);
     unlinkSync(`${dirPath}_crop_2.png`);
+
+    const attachmentAvatar = `${dirPath}_animation.gif`;
+    generatePixelDone(attachmentAvatar, avatarName, interaction);
 }
 
-export {testCharaGenerate, startCharaGenerate};
+export {testCharaGenerate, startPixelGenerate};

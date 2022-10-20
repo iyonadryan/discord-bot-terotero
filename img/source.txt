@@ -1,3 +1,5 @@
 pixel : PIPOYA FREE RPG Character Sprites 32x32
 
 visual_novel : Visual Novel Chara Sprite by Sutemo
+
+Best Compress Website : https://www.iloveimg.com/compress-image

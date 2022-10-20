@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Client, GatewayIntentBits,Routes, SelectMenuBuilder} from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Client, GatewayIntentBits,Routes, SelectMenuBuilder, TextChannel} from 'discord.js';
 import {REST} from '@discordjs/rest';
 
 import OrderCommand from './commands/order.js';
@@ -7,9 +7,12 @@ import GachaCommand from './commands/gacha.js';
 import GifCommand from './commands/getgif.js';
 import RolesCommand from './commands/roles.js';
 import UsersCommand from './commands/users.js';
-import PixelCommand from './commands/pixel.js';
 
-import { testCharaGenerate, startCharaGenerate } from './commands/generate/pixel_generate.js';
+import PixelCommand from './commands/pixel.js';
+import VisualNovelCommand from './commands/visualnovel.js';
+
+import { testCharaGenerate, startPixelGenerate } from './commands/generate/pixel_generate.js';
+import { startVisualNovelGenerate } from './commands/generate/visualnovel_generate.js';
 
 config();
 
@@ -67,25 +70,19 @@ client.on('interactionCreate', (interaction) => {
                 break;
 
             case 'pixel' :
-                const avatarName = interaction.options.get('name').value;
-                startCharaGenerate(avatarName);
-                setTimeout(getGenerate,2000); // Wait generate 2sec    
-                function getGenerate(){
-                    try {
-                        console.log("Get Generate");
-                        const fileAttachment = `img/pixel/avatars/generate_result/${avatarName}_animation.gif`;
-                        interaction.reply({ 
-                            files: [{
-                                attachment: fileAttachment,
-                                name: 'avatar.gif'
-                            }]
-                        });
-                    }
-                    catch(error){
-                        interaction.reply({ content: 'Error, please try again'});
-                    }
-                }   
+                const avatarPixelName = interaction.options.get('name').value;
+                interaction.reply({ 
+                    content: `Generate Pixel ${avatarPixelName} : In Progress`,
+                });
+                startPixelGenerate(avatarPixelName, interaction);   
+                break;
 
+            case 'visualnovel' :
+                const avatarVisualNovelName = interaction.options.get('name').value;
+                interaction.reply({ 
+                    content: `Generate Character ${avatarVisualNovelName} : In Progress`,
+                });
+                startVisualNovelGenerate(avatarVisualNovelName, interaction);
                 break;
             
             case 'addrole' :
@@ -155,6 +152,42 @@ client.on('interactionCreate', (interaction) => {
     }
 });
 
+//----------- GENERATE STATUS : DONE -----------//
+
+function generatePixelDone(attachment, avatarName,interaction){
+    console.log('SHOW DATA');
+    client.channels.fetch(interaction.channelId).then(channel => {
+        channel.send({
+            files: [{
+                attachment: attachment,
+                name: `${avatarName}.gif`
+            }]
+        });
+    });
+    client.channels.fetch(interaction.channelId).then(channel => {
+        channel.send("Generate status : DONE");
+    });
+}
+
+function generateVisualNovelDone(attachment, avatarName,interaction){
+    console.log('SHOW DATA');
+    client.channels.fetch(interaction.channelId).then(channel => {
+        channel.send({
+            files: [{
+                attachment: attachment,
+                name: `${avatarName}.png`
+            }]
+        });
+    });
+    client.channels.fetch(interaction.channelId).then(channel => {
+        channel.send("Generate status : DONE");
+    });
+}
+
+export {generatePixelDone, generateVisualNovelDone};
+
+//----------- !GENERATE STATUS : DONE -----------//
+
 
 async function main(){
 
@@ -163,7 +196,8 @@ async function main(){
         GifCommand, 
         RolesCommand, 
         UsersCommand,
-        PixelCommand];
+        PixelCommand,
+        VisualNovelCommand];
 
     try{
         console.log('Started refreshing application (/) commands.');
