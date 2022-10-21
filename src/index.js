@@ -11,7 +11,8 @@ import UsersCommand from './commands/users.js';
 import PixelCommand from './commands/pixel.js';
 import VisualNovelCommand from './commands/visualnovel.js';
 
-import { testCharaGenerate, startPixelGenerate } from './commands/generate/pixel_generate.js';
+import { testCharaGenerate, startPixelFemaleGenerate } from './commands/generate/pixel_female_generate.js';
+import { startPixelMaleGenerate } from './commands/generate/pixel_male_generate.js';
 import { startVisualNovelGenerate } from './commands/generate/visualnovel_generate.js';
 
 config();
@@ -74,7 +75,13 @@ client.on('interactionCreate', (interaction) => {
                 interaction.reply({ 
                     content: `Generate Pixel ${avatarPixelName} : In Progress`,
                 });
-                startPixelGenerate(avatarPixelName, interaction);   
+
+                if (interaction.options.getSubcommand() === 'female'){
+                    startPixelFemaleGenerate(avatarPixelName, interaction);
+                }  
+                else if (interaction.options.getSubcommand() === 'male'){
+                    startPixelMaleGenerate(avatarPixelName, interaction);
+                }
                 break;
 
             case 'visualnovel' :

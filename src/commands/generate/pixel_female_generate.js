@@ -13,7 +13,7 @@ const GIFEncoder = pkgGifencoder;
 import pkgCanvas from 'canvas';
 const {Canvas, Image} = pkgCanvas; 
 
-import { generatePixelDone } from '../../../src/index.js';
+import { generatePixelDone } from '../../index.js';
 
 let startGenerateGif = 0;
 
@@ -60,7 +60,7 @@ readdir(dirPathFemaleHair, (err,file) =>{
 
 // ----- !Collection Files ----- //
 
-function startPixelGenerate(avatarName, interaction){
+function startPixelFemaleGenerate(avatarName, interaction){
     console.log(testCharaGenerate('START CHARA GENERATE'));
     
     var jimps = [];
@@ -200,4 +200,4 @@ function generateGif(dirPath, avatarName, interaction){
     generatePixelDone(attachmentAvatar, avatarName, interaction);
 }
 
-export {testCharaGenerate, startPixelGenerate};
+export {testCharaGenerate, startPixelFemaleGenerate};
