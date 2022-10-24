@@ -2,7 +2,7 @@ import pkgJimp from 'jimp';
 const { read } = pkgJimp;
 
 import pkgFs from 'fs-extra';
-const { readdir, writeFile } = pkgFs;
+const { readdir} = pkgFs;
 
 import { generateVisualNovelDone } from '../../../src/index.js';
 
@@ -83,7 +83,7 @@ readdir(dirPathFemaleAccessories, (err,file) =>{
 
 // ----- !Collection Files ----- //
 
-function startVisualNovelGenerate(avatarName, interaction){
+function startVisualNovelFemaleGenerate(avatarName, interaction){
     console.log('START CHARA GENERATE');
     var jimps = [];
 
@@ -187,4 +187,4 @@ function getRandomFileFromFolder(dirPath,files){
     return `${dirPath}${result}`;
 }
 
-export {startVisualNovelGenerate};
+export {startVisualNovelFemaleGenerate};

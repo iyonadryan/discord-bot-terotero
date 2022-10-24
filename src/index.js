@@ -2,18 +2,24 @@ import { config } from 'dotenv';
 import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, Client, GatewayIntentBits,Routes, SelectMenuBuilder, TextChannel} from 'discord.js';
 import {REST} from '@discordjs/rest';
 
-import OrderCommand from './commands/order.js';
-import GachaCommand from './commands/gacha.js';
-import GifCommand from './commands/getgif.js';
-import RolesCommand from './commands/roles.js';
-import UsersCommand from './commands/users.js';
+// Command
+import {
+    OrderCommand,
+    GachaCommand,
+    GifCommand,
+    RolesCommand,
+    UsersCommand,
 
-import PixelCommand from './commands/pixel.js';
-import VisualNovelCommand from './commands/visualnovel.js';
+    PixelCommand,
+    VisualNovelCommand} 
+    from './commands/command.js';
 
-import { testCharaGenerate, startPixelFemaleGenerate } from './commands/generate/pixel_female_generate.js';
-import { startPixelMaleGenerate } from './commands/generate/pixel_male_generate.js';
-import { startVisualNovelGenerate } from './commands/generate/visualnovel_generate.js';
+// Generate
+import {
+    startPixelFemaleGenerate,
+    startPixelMaleGenerate,
+    startVisualNovelFemaleGenerate } 
+    from './commands/generate/generate.js';
 
 config();
 
@@ -89,7 +95,12 @@ client.on('interactionCreate', (interaction) => {
                 interaction.reply({ 
                     content: `Generate Character ${avatarVisualNovelName} : In Progress`,
                 });
-                startVisualNovelGenerate(avatarVisualNovelName, interaction);
+                if (interaction.options.getSubcommand() === 'female'){
+                    startVisualNovelFemaleGenerate(avatarVisualNovelName, interaction);
+                }  
+                else if (interaction.options.getSubcommand() === 'male'){
+                    // On Progress
+                }
                 break;
             
             case 'addrole' :
@@ -203,6 +214,7 @@ async function main(){
         GifCommand, 
         RolesCommand, 
         UsersCommand,
+
         PixelCommand,
         VisualNovelCommand];
 
