@@ -19,7 +19,7 @@ import {
     startPixelFemaleGenerate,
     startPixelMaleGenerate,
     startVisualNovelFemaleGenerate } 
-    from './commands/generate/generate.js';
+    from './commands/generates/generate.js';
 
 config();
 
@@ -120,10 +120,6 @@ client.on('interactionCreate', (interaction) => {
         console.log("Select Button");
         if (interaction.customId === 'gacha_anime'){
             console.log(currentRowComponent.components[0]);
-            /***** Try to disable button
-            currentRowComponent.components[0].setDisabled(true); // button 0
-            */
-
             interaction.message.delete(interaction.customId);
 
             const actionAnimeComponent = new ActionRowBuilder().setComponents(
