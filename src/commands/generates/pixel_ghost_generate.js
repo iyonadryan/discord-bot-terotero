@@ -11,88 +11,72 @@ let startGenerateGif = 0;
 // ----- Collection Files ----- //
 const avatarPath = `./././img/pixel/avatars/`;
 
-// Male
-var skinMaleFiles = []; // 00
-const dirPathMaleSkin = `${avatarPath}0_male/00skin/`;
-readdir(dirPathMaleSkin, (err,file) =>{
+// Ghost
+var skinGhostFiles = []; // 00
+const dirPathGhostSkin = `${avatarPath}2_ghost/00skin/`;
+readdir(dirPathGhostSkin, (err,file) =>{
     if (err) {
         return console.log('Unable to scan directory: ' + err);
     } 
-    skinMaleFiles = file;
+    skinGhostFiles = file;
 });
-var costumeMaleFiles = []; // 01
-const dirPathMaleCostume = `${avatarPath}0_male/01costume/`;
-readdir(dirPathMaleCostume, (err,file) =>{
+var eyeGhostFiles = []; // 01
+const dirPathGhostEye = `${avatarPath}2_ghost/01eye/`;
+readdir(dirPathGhostEye, (err,file) =>{
     if (err) {
         return console.log('Unable to scan directory: ' + err);
     } 
-    costumeMaleFiles = file;
+    eyeGhostFiles = file;
 });
-var eyeMaleFiles = []; // 02
-const dirPathMaleEye = `${avatarPath}0_male/02eye/`;
-readdir(dirPathMaleEye, (err,file) =>{
+var hatGhostFiles = []; // 02
+const dirPathGhostHat = `${avatarPath}2_ghost/02hat/`;
+readdir(dirPathGhostHat, (err,file) =>{
     if (err) {
         return console.log('Unable to scan directory: ' + err);
     } 
-    eyeMaleFiles = file;
-});
-var hairMaleFiles = []; // 03
-const dirPathMaleHair = `${avatarPath}0_male/03hair/`;
-readdir(dirPathMaleHair, (err,file) =>{
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
-    } 
-    hairMaleFiles = file;
+    hatGhostFiles = file;
 });
 
 // ----- !Collection Files ----- //
 
-function startPixelMaleGenerate(avatarName, interaction){
+function startPixelGhostGenerate(avatarName, interaction){
     
     var jimps = [];
     
-    // Base Shadow / data[0]
-    const baseShadow = `${avatarPath}base_shadow.png`;
-    jimps.push(read(baseShadow));
-    // Get Skin Male // 00 / data[1]
-    const skinMaleAvatar = getRandomFileFromFolder(dirPathMaleSkin, skinMaleFiles);
-    jimps.push(read(skinMaleAvatar));
-    // Get Costume Male // 01 / data[2]
-    const costumeMaleAvatar = getRandomFileFromFolder(dirPathMaleCostume, costumeMaleFiles);
-    jimps.push(read(costumeMaleAvatar));
-    // Get Eye Male // 02 / data[3]
-    const eyeMaleAvatar = getRandomFileFromFolder(dirPathMaleEye, eyeMaleFiles);
-    jimps.push(read(eyeMaleAvatar));
-    // Get hair Male // 03 / data[4]
-    const hairMaleAvatar = getRandomFileFromFolder(dirPathMaleHair, hairMaleFiles);
-    jimps.push(read(hairMaleAvatar));
+    // Get Skin Ghost // 00 / data[0]
+    const skinGhostAvatar = getRandomFileFromFolder(dirPathGhostSkin, skinGhostFiles);
+    jimps.push(read(skinGhostAvatar));
+    // Get Eye Ghost // 01 / data[1]
+    const eyeGhostAvatar = getRandomFileFromFolder(dirPathGhostEye, eyeGhostFiles);
+    jimps.push(read(eyeGhostAvatar));
+    // Get Hat Ghost // 02 / data[2]
+    const hatGhostAvatar = getRandomFileFromFolder(dirPathGhostHat, hatGhostFiles);
+    jimps.push(read(hatGhostAvatar));
 
     Promise.all(jimps).then(function(data){
         return Promise.all(jimps);
     }).then(function(data){
 
-        // Hue Color Costume // data[2]
+        // Hue Color Skin // data[0]
         let randomDegreeCostume = Math.floor(Math.random() * 360);
-        data[2].color([
+        data[0].color([
             { apply: 'hue', params: [randomDegreeCostume] }
         ]);
 
-        // Hue Color Eye // data[3]
+        // Hue Color Eye // data[1]
         let randomDegreeEye = Math.floor(Math.random() * 360);
-        data[3].color([
+        data[1].color([
             { apply: 'hue', params: [randomDegreeEye] }
         ]);
 
-        // Hue Color Hair // data[4]
-        let randomDegreeHair = Math.floor(Math.random() * 360);
-        data[4].color([
-            { apply: 'hue', params: [randomDegreeHair] }
+        // Hue Color Hat // data[2]
+        let randomDegreeHat = Math.floor(Math.random() * 360);
+        data[2].color([
+            { apply: 'hue', params: [randomDegreeHat] }
         ]);
 
         data[0].composite(data[1],0,0);
         data[0].composite(data[2],0,0);
-        data[0].composite(data[3],0,0);
-        data[0].composite(data[4],0,0);
 
         // Write Image To Local
         data[0].write(`${avatarPath}generate_result/${avatarName}.png`, function(){
@@ -135,4 +119,4 @@ async function starCropAvatarPixel(dirPath, part, x , y, checkStartGif , avatarN
     }
 }
 
-export {startPixelMaleGenerate};
+export {startPixelGhostGenerate};

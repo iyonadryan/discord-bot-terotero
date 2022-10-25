@@ -18,6 +18,7 @@ import {
 import {
     startPixelFemaleGenerate,
     startPixelMaleGenerate,
+    startPixelGhostGenerate,
     startVisualNovelFemaleGenerate } 
     from './commands/generates/generate.js';
 
@@ -87,6 +88,9 @@ client.on('interactionCreate', (interaction) => {
                 }  
                 else if (interaction.options.getSubcommand() === 'male'){
                     startPixelMaleGenerate(avatarPixelName, interaction);
+                }
+                else if (interaction.options.getSubcommand() === 'ghost'){
+                    startPixelGhostGenerate(avatarPixelName, interaction);
                 }
                 break;
 
