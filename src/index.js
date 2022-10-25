@@ -19,6 +19,7 @@ import {
     startPixelFemaleGenerate,
     startPixelMaleGenerate,
     startPixelGhostGenerate,
+    startPixelNekoninGenerate,
     startVisualNovelFemaleGenerate } 
     from './commands/generates/generate.js';
 
@@ -91,6 +92,9 @@ client.on('interactionCreate', (interaction) => {
                 }
                 else if (interaction.options.getSubcommand() === 'ghost'){
                     startPixelGhostGenerate(avatarPixelName, interaction);
+                }
+                else if (interaction.options.getSubcommand() === 'nekonin'){
+                    startPixelNekoninGenerate(avatarPixelName, interaction);
                 }
                 break;
 

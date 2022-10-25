@@ -33,6 +33,16 @@ const pixelCommand = new SlashCommandBuilder()
                     .setDescription('Insert your name')
                     .setRequired(true)
                 )   
+        ).addSubcommand( subcommand => 
+            subcommand
+                .setName('nekonin') // 3_nekonin
+                .setDescription('Generate Nekonin Pixel Character')
+                .addStringOption((option) => 
+                option
+                    .setName('name')
+                    .setDescription('Insert your name')
+                    .setRequired(true)
+                )   
         );
 
 export default pixelCommand.toJSON();
