@@ -40,3 +40,10 @@ https://stackoverflow.com/questions/72956236/unable-to-install-canvas-nodejs
 https://learn.microsoft.com/en-us/visualstudio/install/modify-visual-studio?view=vs-2022
 ------------------
 
+Play audio : https://youtu.be/pdAd2dP7aP0
+
+npm install @discordjs/voice libsodium-wrappers
+npm install ffmpeg-static
+
+-------
+

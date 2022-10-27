@@ -29,3 +29,9 @@ import ListCommand from './list.js';
 export {
     ListCommand
 };
+
+// DJ
+import DjCommand from './dj.js';
+export {
+    DjCommand
+};

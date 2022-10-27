@@ -13,7 +13,9 @@ import {
     PixelCommand,
     VisualNovelCommand,
 
-    ListCommand} 
+    ListCommand,
+
+    DjCommand} 
     from './commands/command.js';
 
 // Generate
@@ -31,6 +33,9 @@ import {showListUser,
     removeListUser, 
     shuffleListUser, 
     resetListUser} from './commands/lists/list_user.js'
+
+// Play DJ
+import {djplay} from './commands/dj/dj_play.js'
 
 config();
 
@@ -157,6 +162,13 @@ client.on('interactionCreate', (interaction) => {
                     });
                 }
                 break;
+
+            case 'dj' :
+                djplay(interaction,client);
+                interaction.reply({ 
+                    content: `DJ On Progress`,
+                });
+                break;
             
             case 'addrole' :
                 interaction.reply({ 
@@ -269,7 +281,8 @@ async function main(){
         PixelCommand,
         VisualNovelCommand,
     
-        ListCommand];
+        ListCommand,
+        DjCommand];
 
     try{
         console.log('Started refreshing application (/) commands.');
