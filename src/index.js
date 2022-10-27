@@ -11,7 +11,9 @@ import {
     UsersCommand,
 
     PixelCommand,
-    VisualNovelCommand} 
+    VisualNovelCommand,
+
+    ListCommand} 
     from './commands/command.js';
 
 // Generate
@@ -22,6 +24,13 @@ import {
     startPixelNekoninGenerate,
     startVisualNovelFemaleGenerate } 
     from './commands/generates/generate.js';
+
+// List
+import {showListUser, 
+    addListUser, 
+    removeListUser, 
+    shuffleListUser, 
+    resetListUser} from './commands/lists/list_user.js'
 
 config();
 
@@ -108,6 +117,44 @@ client.on('interactionCreate', (interaction) => {
                 }  
                 else if (interaction.options.getSubcommand() === 'male'){
                     // On Progress
+                }
+                break;
+
+            case 'listuser' :
+                if (interaction.options.getSubcommand() === 'show'){
+                    const listUserString = showListUser();
+                    interaction.reply({ 
+                        content: `Current List : \n${listUserString}`,
+                    });
+                }
+                else if (interaction.options.getSubcommand() === 'add'){
+                    const addUserName = interaction.options.get('username').value;
+                    addListUser(addUserName);
+                    const listUserString = showListUser();
+                    interaction.reply({ 
+                        content: `Current List : \n${listUserString}`,
+                    });
+                }
+                else if (interaction.options.getSubcommand() === 'remove'){
+                    const removeNumber = interaction.options.get('number').value;
+                    removeListUser(removeNumber);
+                    const listUserString = showListUser();
+                    interaction.reply({ 
+                        content: `Current List : \n${listUserString}`,
+                    });
+                }
+                else if (interaction.options.getSubcommand() === 'shuffle'){
+                    shuffleListUser();
+                    const listUserString = showListUser();
+                    interaction.reply({ 
+                        content: `Current List : \n${listUserString}`,
+                    });
+                }
+                else if (interaction.options.getSubcommand() === 'reset'){
+                    resetListUser();
+                    interaction.reply({ 
+                        content: `Reset List`,
+                    });
                 }
                 break;
             
@@ -220,7 +267,9 @@ async function main(){
         UsersCommand,
 
         PixelCommand,
-        VisualNovelCommand];
+        VisualNovelCommand,
+    
+        ListCommand];
 
     try{
         console.log('Started refreshing application (/) commands.');
